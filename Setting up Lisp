@@ -9,7 +9,3 @@ next command. When all 4 are executed, you will be able to run lisp using the co
    cd sbcl-1.4.3-x86-linux/
 
    sudo ./install.sh
-
-
- 
- 

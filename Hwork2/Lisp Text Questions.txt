@@ -1,0 +1,90 @@
+Lisp Text Questions: 3.1, 3.2, 3.3 (pg. 81), 3.7 (pg. 83) 3.10 (pg. 90), 3.20, 3.21 (pg. 96), and 3.25 (pg. 111)
+
+3.1: 
+(NOT (EQUAL 3 (ABS -3))) 
+Result: NIL
+
+3.2: 
+(/ (+ 8 12) 2)
+// Result: 10
+
+3.3: 
+(+ (* 3 3) (* 4 4))
+// Result: 25
+
+3.7: 
+(defun MILES-PER-GALLON (INITIAL-ODOMETER-READING FINAL-ODOMETER-READING GALLONS-CONSUMED)
+    (/ (- FINAL-ODOMETER-READING INITIAL-ODOMETER-READING) GALLONS-CONSUMED))
+
+(MILES-PER-GALLON 10024 10148 4)
+
+3.10:
+(third (the quick brown fox))
+// Error comes from the list being variables, not symbols
+Correction: (third '(the quick brown fox))
+
+(list 2 and 2 is 4)
+// Error comes from improperly listing
+Correction: (list 2 'and 2 'is 4)
+
+(+ 1 '(length (list t t t t)))
+// Error comes from trying to evaluate a list
+Correction: (+ 1 (length (list t t t t)))
+
+(cons 'patrick (seymour marvin))
+// Error comes from seymour and marvin being variables, not symbols
+Correction: (cons 'patrick '(seymour marvin))
+
+(cons 'patrick (list seymour marvin))
+// Error comes from seymour and marvin being variables, not symbols
+Correction: (cons 'patrick (list 'seymour 'marvin))
+
+3.20: 
+(defun mystery (x)
+    (list (second x) (first x)))
+
+(mystery '(dancing bear))
+Result: (BEAR DANCING)
+
+(mystery 'dancing 'bear)
+Error: invalid number of arguments: 2
+
+(mystery '(zowie))
+Result: (NIL ZOWIE)
+
+(mystery (list 'first 'second))
+Result: (SECOND FIRST)
+
+3.21:
+(defun speak (x y) (list 'all 'x 'is 'y))
+// Parameters x and y are defined, but never used (because of ' in front of both).
+
+(defun speak (x) (y) (list 'all x 'is y))
+// Parameter x is defined properly, but y isn't. They should be in the same parentheses.
+
+(defun speak ((x) (y)) (list all 'x is 'y))
+// Parameters x and y have extra parentheses. all and is should be symbols while x and y should be variables.
+
+Correction for all three: (defun speak (x y) (list 'all x 'is y))
+
+3.25:
+(list 'cons t nil)
+// Result: (CONS T NIL)
+
+(eval (list 'cons t nil))
+// Result: (T)
+
+(eval (eval (list 'cons t nil)))
+// Error: The function COMMON-LISP:T is undefined.
+
+(apply #'cons '(t nil))
+// Result: (T)
+
+(eval nil)
+// Result: NIL
+
+(list 'eval nil)
+// Result: (EVAL NIL)
+
+(eval (list 'eval nil))
+// Result: NIL

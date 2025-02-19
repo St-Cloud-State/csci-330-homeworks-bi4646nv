@@ -1,0 +1,58 @@
+Script started on 2025-02-19 01:17:35+00:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="184" LINES="29"]
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/csci-330-homeworks-bi4646nv/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ sbcx[Kl
+This is SBCL 1.4.3, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+* (load Q3.l    "Q3.lisp")
+
+T
+* (bottom-up-mergesort '(5 3 8 6 2 7 4 1))
+
+(1 2 3 4 5 6 7 8)
+* (bottom-up-mergesort '(1 8 2 9 4 6 7))
+
+(1 2 4 6 7 8 9)
+* (bottom-up-mergesort '(4 2 4 2 4 2 4 2))
+
+(2 2 2 2 4 4 4 4)
+* (exit)
+[0;32m@bi4646nv [0m➜ [1;34m/workspaces/csci-330-homeworks-bi4646nv/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ cat Q3.ls[Kisp 
+; Question 3 - "Bottom-up" Mergesort
+(defun my-merge (left right) ;; my-merge function from question 2
+  (cond
+    ((null left) right)  ;; If left is empty, return right
+    ((null right) left)  ;; If right is empty, return left
+    ((<= (car left) (car right))  ;; If left's first element is smaller, take left's first element and make recursive call
+     (cons (car left) (my-merge (cdr left) right))) 
+    (t  ;; If right's first element is smaller, take right's first element and make recursive call
+     (cons (car right) (my-merge left (cdr right))))))
+
+(defun make-pairs (lst)
+  (cond
+    ((null lst) '()) ;; If the list is empty, return an empty list
+    ((null (cdr lst)) (list (list (car lst)))) ;; If one element is left, put it into a sublist
+    (t (cons (list (min (car lst) (cadr lst)) (max (car lst) (cadr lst))) ;; Create a sorted pair
+             (make-pairs (cddr lst)))))) ;; Make recursive call for the rest of the list
+
+(defun merge-pairs-helper (lst) ;; A helper is the only way I could figure out how to work this without built-in loop function
+  (cond
+    ((null lst) '())  ;; If empty, return empty list
+    ((null (cdr lst)) (list (car lst)))  ;; If an odd element remains, keep it as is
+    (t (cons (my-merge (car lst) (cadr lst))  ;; Merge first two lists using my-merge function I defined in question 2
+             (merge-pairs-helper (cddr lst))))))  ;; Make recursive calls for remaining lists
+
+(defun merge-pairs (lst)
+  (cond
+    ((null lst) '())  ;; If the list is empty, return an empty list
+    ((null (cdr lst)) (car lst))  ;; If only one sublist remains, return it as the final sorted list
+    (t (merge-pairs (merge-pairs-helper lst)))))  ;; Make recursive calls to merge pairs
+
+(defun bottom-up-mergesort (lst)
+  (merge-pairs (make-pairs lst))) ;; Start with creating the sorted pairs and then merge them after[0;32m@bi4646nv [0m➜ [1;34m/workspaces/csci-330-homeworks-bi4646nv/Hwork3 [0;36m([1;31mmain[0;36m) [0m$ exit
+exit
+
+Script done on 2025-02-19 01:19:04+00:00 [COMMAND_EXIT_CODE="0"]

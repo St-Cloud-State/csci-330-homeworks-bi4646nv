@@ -1,0 +1,17 @@
+Valid Cases:
+(parse '(i w o y s))
+(parse '(i x o y o w d s b))
+(parse '(i x o y d s b))
+(parse '(i z o x o y o w s))
+(parse '(i x o y o z d s s b))
+(parse '(i y o x o z o w o y d s s b))
+(parse '(i w o y o z o x o y o w d s b))
+
+Invalid Cases:
+(parse '(x y s q r))
+(parse '(i a x s t))
+(parse '(i x o y z))
+(parse '(i w o d b b))
+(parse '(i o x y o w s))
+(parse '(i x y w d s s))
+(parse '(i y z d s b e s))
